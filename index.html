@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>随机视频播放</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <video id="videoPlayer" width="100%" height="auto"   autoplay ></video>
+  <canvas id="myCanvas" style="display:none;"></canvas>
+  <button id="playButton">播放视频</button>
+  <script>
+    // 定义7个视频的URL
+    // 环游ok 神树ok  斗牛ok  幻帝ok  疯人院mam    美丽ok  鲁班ok
+    const videos = [
+      "./resource/vedeo/gd.mp4",
+      "./resource/vedeo/xhyxs.mp4",
+      "./resource/vedeo/mer.mp4",
+      "./resource/vedeo/hy.mp4",
+      "./resource/vedeo/fry.mp4",
+      "./resource/vedeo/tree.mp4",
+      "./resource/vedeo/beautiful.mp4",
+      "./resource/vedeo/lb.mp4"
+    ];
+
+    // 随机选择一个视频
+    function getRandomVideo() {
+      const randomIndex = Math.floor(Math.random() * videos.length);
+      return videos[randomIndex];
+    }
+
+    const video = document.getElementById('videoPlayer');
+    video.src = getRandomVideo();
+
+    const canvas = document.getElementById('myCanvas');
+    const context = canvas.getContext('2d');
+    const playButton = document.getElementById('playButton');
+   
+    playButton.addEventListener('click', () => {
+        video.play().then(() => {
+            updateBackgroundColor();
+        }).catch(error => {
+            console.error('播放失败：', error);
+        });
+    });
+
+    const updateBackgroundColor = () => {
+        if (!video.paused && !video.ended) {
+            // 设置画布尺寸
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            console.log(canvas.width, canvas.height);
+            // // 从视频帧绘制到画布
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // // 获取图像数据
+            const frameData = context.getImageData(0, 0, canvas.width, canvas.height);
+            // const data = frameData.data;
+
+            // // 提取颜色（简单示例：取第一个像素的颜色）
+            // const r = data[0];
+            // const g = data[1];
+            // const b = data[2];
+
+            // // 更新背景颜色
+            // document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+            // // 递归调用
+            requestAnimationFrame(updateBackgroundColor);
+        }
+    };
+ 
+
+  </script>
+</body>
+</html>

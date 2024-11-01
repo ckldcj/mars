@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>随机视频播放</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+  <video id="videoPlayer" width="100%" height="auto" autoplay></video>
+  <canvas id="myCanvas" style="display:none;"></canvas>
+  <!-- <button id="playButton">播放视频</button> -->
+  <div id="mask"><img src="./resource/img/火星演唱会4.jpg" alt="mask" /></div>
+  <script>
+    // 定义7个视频的URL
+    // 环游ok 神树ok  斗牛ok  幻帝ok  疯人院mam    美丽ok  鲁班ok
+    const videos = [
+      "./resource/vedeo/gd.mp4",
+      "./resource/vedeo/xhyxs.mp4",
+      "./resource/vedeo/mer.mp4",
+      "./resource/vedeo/hy.mp4",
+      "./resource/vedeo/fry.mp4",
+      "./resource/vedeo/tree.mp4",
+      "./resource/vedeo/beautiful.mp4",
+      "./resource/vedeo/lb.mp4"
+    ];
+
+    // 随机选择一个视频
+    function getRandomVideo() {
+      const randomIndex = Math.floor(Math.random() * videos.length);
+      return videos[randomIndex];
+    }
+
+    const video = document.getElementById('videoPlayer');
+    // const context = canvas.getContext('2d');
+    const mask = document.getElementById('mask');
+
+    mask.addEventListener('click', () => {
+      mask.style.display = 'none';
+      video.src = getRandomVideo();
+      video.load();
+    });
+    video.addEventListener('ended', () => {
+      // alert('视频播放完成！');
+      mask.style.display = 'block';
+    });
+
+  
+
+  </script>
+</body>
+
+</html>
